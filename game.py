@@ -19,13 +19,11 @@ class Sack:
         self.rect = sack_img.get_rect()
         self.rect.bottomleft = (self.x, self.y)
 
-
     def draw(self, surf):
         mouse = pygame.mouse.get_pos()[0]
         if mouse < 550 - self.rect.width / 2 and mouse + 50 > self.rect.width / 2:
             self.x = pygame.mouse.get_pos()[0] - (self.rect.width / 2)
         surf.blit(sack_img, (self.x, self.y))
-
 
 
 class Present:
@@ -37,16 +35,18 @@ class Present:
         self.rect.bottomleft = (self.x, self.y)
 
     def draw(self, win):
-        if 0 < self.x and self.x < 500 - self.rect.width:
+        if 0 < self.x < 500 - self.rect.width:
             pass
         else:
             self.kill = True
 
         win.blit(present_img, (self.x, self.y))
 
+
 def display_score(score, win):
     score_text = font.render("Score: {}".format(score), True, (255, 255, 255))
     win.blit(score_text, (win.get_width() - 150, 20))
+
 
 def make_background():
     window_width = 500
@@ -63,9 +63,12 @@ def make_background():
                 pygame.draw.rect(background, col2, (col, row, square_size, square_size))
 
     return background
+
+
 def main(win):
     run = True
     score = 0
+    lives = 3
     clock = pygame.time.Clock()
     present_count = 0
     presents = []
@@ -89,7 +92,11 @@ def main(win):
             for i in range(len(presents)):
                 if not present.rect.colliderect(presents[i]):
                     present.draw(win)
-            if present.y > 700 or present.kill:
+            if present.y > 700:
+                presents.remove(present)
+                present_count -= 1
+                lives -= 1
+            elif present.kill:
                 presents.remove(present)
                 present_count -= 1
 
@@ -100,10 +107,13 @@ def main(win):
                 presents.remove(present)
                 present_count -= 1
 
+        if lives == 0:
+            run = False
+
         sack.draw(win)
 
         pygame.display.update()
 
 
 if __name__ == '__main__':
-    main(win)
+    main(pygame.display.set_mode((500, 700)))

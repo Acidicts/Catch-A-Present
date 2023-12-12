@@ -1,5 +1,6 @@
 import pygame
 
+
 class Button:
     def __init__(self, x, y, image):
         self.image = image
@@ -19,7 +20,6 @@ class Button:
     def collision(self):
         if self.rect.collidepoint(self.mouse_pos):
             return True
-
 
         else:
             return False

@@ -11,7 +11,7 @@ font = pygame.font.Font('freesansbold.ttf', 64)
 
 start = Button(250, 250, pygame.transform.scale(pygame.image.load('start.png'), (200, 100)))
 present = Present(200, 350)
-quit = Button(250, 550, pygame.transform.scale(pygame.image.load('quit.png'), (200, 100)))
+quit_button = Button(250, 550, pygame.transform.scale(pygame.image.load('quit.png'), (200, 100)))
 f = font.render("Santa's Sack", True, (255, 0, 0))
 
 run = True
@@ -23,13 +23,13 @@ while run:
         if event.type == pygame.MOUSEBUTTONUP:
             if start.collision():
                 main(win)
-            if quit.collision():
+            if quit_button.collision():
                 run = False
 
     win.blit(f, (250 - f.get_width() / 2, 100))
     start.update(win)
     present.draw(win)
-    quit.update(win)
+    quit_button.update(win)
 
     pygame.display.update()
 
